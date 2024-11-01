@@ -6,14 +6,13 @@ import random
 import sys
 
 """
-This is just a little raycaster thingy, I'm gonna rewrite it into a library
-but for now I'm just making something that works
+This code is really old and needs to be rewritten for scalability and optimization.
 """
 
 FLAGS = pygame.SCALED | pygame.RESIZABLE
 screen = pygame.display.set_mode((640, 360), FLAGS, vsync=1)
 
-# CLOBAL CONSTANTS #
+# GLOBAL CONSTANTS #
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -58,11 +57,16 @@ WOOD = pygame.image.load("W3D_wood.png").convert()
 SKY = pygame.image.load("Sky2.png").convert()
 SKY = pygame.transform.scale(SKY, (640 * 4, 360))
 
-# CLOBAL VARIABLES #
+# GLOBAL VARIABLES #
 player_x = 2 * TILE_SIZE
 player_y = 2 * TILE_SIZE
 player_angle = math.pi
 
+"""
+Cast rays and render textures. 
+This process is slow because the texture's scale on the y axis gets to be way too much when the player gets too close to the wall.
+I remember cropping the texture to the screen height but that didn't work.
+"""
 def cast_rays():
     start_angle = player_angle - HALF_FOV
 
@@ -117,6 +121,7 @@ def cast_rays():
                 break
         start_angle += ANGLE_STEP
 
+# Detect if there was a collision in a certain direction
 def collision(direction):
 
     
